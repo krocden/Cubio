@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: ff4edb232751a8345baae9ebc50b3a92
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - floatingDamage_Normal: {fileID: 5892256845464209573, guid: e83889dd75083f247b5be9024ff703cb,
+      type: 3}
+  - floatingDamage_Critical: {fileID: 5892256845464209573, guid: c01840b4dc4e6b245bcb821d6e12037a,
+      type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
