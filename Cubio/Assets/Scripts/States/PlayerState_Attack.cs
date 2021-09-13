@@ -88,7 +88,7 @@ public class PlayerState_Attack : PlayerState
             enemy.GetComponent<Boss>().hitMonster(damageSend, player.critChance, player.critDamage);
             Debug.Log("SENT  \""+enemy.name+"\" "+ damageSend + " DAMAGE");
         }
-        player.currentMana -= 200;
+        player.currentMana -= 750;
     }
     bool flipped(){
         // if(sprite.flipX == true){

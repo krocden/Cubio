@@ -9,6 +9,7 @@ public class Boss_Handler : MonoBehaviour
     [SerializeField]
     GameObject currentPhase;
     int currentPhaseNumber;
+    bool isDead = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -19,21 +20,34 @@ public class Boss_Handler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        changePhase();
+        checkDeath();
+        if(!isDead){
+            changePhase();
+        }
     }
 
     void changePhase(){
+        //Spawn next phase of boss (If exist) when current phase of boss is dead
         if(currentPhase == null){
             if(phaseList[currentPhaseNumber] != null){
                 spawnBoss(currentPhaseNumber);
                 currentPhaseNumber ++;
-            }
+            } 
         }
     }
     void spawnBoss(int phase){
         currentPhase = phaseList[phase];
         currentPhase = Instantiate(phaseList[phase], transform.position, Quaternion.identity);
         currentPhase.transform.parent = transform;
+    }
+
+    void checkDeath(){
+        if(currentPhase == null){
+            if(currentPhaseNumber >= phaseList.Count){
+                isDead = true;
+                Destroy(gameObject);
+            }
+        }
     }
 
 }
