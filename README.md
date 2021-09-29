@@ -3,7 +3,6 @@
 
 * Uses placeholder sprites.
 * Features: Playable character with movement, 1 boss, Mana system and 1 skill.
-* Upcoming Features: Quest and NPC system, More skills, Levels, Different maps, Different art and sprites
 
 ##### Main boss
 ![image](https://user-images.githubusercontent.com/54383620/133034506-e94fe249-a5fd-4b69-839a-ef3903061b98.png)
