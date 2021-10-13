@@ -35,20 +35,27 @@ public class Monsters : MonoBehaviour
         //checkDeath();
     }
 
-    public void hitMonster(int incomingDamage, int criticalChance, float critDamage){
-        damageCalc(incomingDamage, criticalChance, critDamage);
+    public void hitMonster(int skillDamage, int attackRangeLow, int attackRangeHigh, int damageLines, int criticalChance, float critDamage){
+        for(int i = 0; i < damageLines; i++){
+            int damageSend = (skillDamage/100) * Random.Range(attackRangeLow, attackRangeHigh);
+            Debug.Log("SENT  \""+this.name+"\" "+ damageSend + " DAMAGE");
+            damageCalc(damageSend, criticalChance, critDamage, i);
+        }
+        
     }
 
-    void damageCalc(float incomingDamage, int criticalChance, float critDamage){
+    void damageCalc(float incomingDamage, int criticalChance, float critDamage, int currentLine){
         float resistance = 1 - ((float)armorResist / 100);
         if(isCritical(criticalChance)){
             int damageReceived = (int)(critDamage * incomingDamage * resistance);
-            GameObject textDamage = Instantiate(floatingDamage_Critical, transform.position, Quaternion.identity, this.gameObject.transform);
+            GameObject textDamage = Instantiate(floatingDamage_Critical, transform.position + new Vector3(0, 2, 0), Quaternion.identity, this.gameObject.transform);
+            textDamage.transform.position += new Vector3(0, (float)1, 0) * currentLine;
             textDamage.GetComponent<TextMesh>().text = damageReceived.ToString();
             currentHealth -= damageReceived;
         } else {
             int damageReceived = (int)(incomingDamage * resistance);
-            GameObject textDamage = Instantiate(floatingDamage_Normal, transform.position, Quaternion.identity, this.gameObject.transform);
+            GameObject textDamage = Instantiate(floatingDamage_Normal, transform.position + new Vector3(0, 2, 0), Quaternion.identity, this.gameObject.transform);
+            textDamage.transform.position += new Vector3(0, (float)1, 0) * currentLine;
             textDamage.GetComponent<TextMesh>().text = damageReceived.ToString();
             currentHealth -= damageReceived;
         }
@@ -68,7 +75,13 @@ public class Monsters : MonoBehaviour
 
     protected void checkDeath(){
         if(currentHealth <= 0){
+            checkDamageChild();
             Destroy(gameObject);
+        }
+    }
+    void checkDamageChild(){
+        foreach (Transform child in transform) {
+            child.parent = null;
         }
     }
 
