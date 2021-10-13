@@ -1,5 +1,5 @@
 # Cubio
-#### 2D side-scrolling RPG game inspired by Maplestory
+#### 2D side-scrolling RPG game 
 
 * Uses placeholder sprites.
 * Features: Playable character with movement, 1 boss, Mana system and 1 skill.
