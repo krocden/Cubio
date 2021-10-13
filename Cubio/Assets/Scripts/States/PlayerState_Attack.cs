@@ -13,6 +13,8 @@ public class PlayerState_Attack : PlayerState
     //Transform attackPos;
     float attackRange;
     int skillDamage;
+    int damageLines;
+    bool skillLocked;
     public PlayerState_Attack(Player player, PlayerStateMachine stateMachine, string animBoolName) : base(player, stateMachine, animBoolName){
         
     }
@@ -42,7 +44,6 @@ public class PlayerState_Attack : PlayerState
         //Debug.Log("INPUT:" + input);
         
         if(input == "Z"){
-            //Debug.Log("INPUT Z");
             if(attackDelay <= 0){
                 if(player.currentMana >= 200){
                     startAttackDelay = 0.425f;
@@ -58,9 +59,21 @@ public class PlayerState_Attack : PlayerState
             }
             
         } else if (input == "X"){
-
+            skillLocked = true;
+            if(attackDelay <= 0){
+                if(player.currentMana >= 250){
+                    startAttackDelay = 0.425f;
+                    dragonFury();
+                    attackDelay = startAttackDelay;
+                } else {
+                    Debug.Log("NOT ENOUGH MANA");
+                    stateMachine.ChangeState(player.IdleState);
+                }
+                
+            } else {
+                attackDelay -= Time.deltaTime;
+            }
         } else {
-            //Debug.Log("Back to IDLE");
             stateMachine.ChangeState(player.IdleState);
         }
     }
@@ -68,12 +81,14 @@ public class PlayerState_Attack : PlayerState
     {
         base.PhysicsUpdate();
     }
+    // Ability 1
     void spearCrusher(){
         Debug.Log("SPEAR CRUSHING");
         anim.Play("Attack_Z");
         //player.StartCoroutine(startDelayCoroutine(1));
-        attackRange = 2f;
+        attackRange = 2.25f;
         skillDamage = 400;
+        damageLines = 1;
         Vector2 startPos;
         if(flipped()){
             float distanceFromBody = 2.5f;
@@ -84,17 +99,33 @@ public class PlayerState_Attack : PlayerState
         }
         Collider2D[] enemiesHit = Physics2D.OverlapCircleAll(startPos, attackRange, enemyLayer);
         foreach(Collider2D enemy in enemiesHit){
-            int damageSend = (skillDamage/100) * Random.Range(player.attackRangeLow, player.attackRangeHigh);
-            enemy.GetComponent<Boss>().hitMonster(damageSend, player.critChance, player.critDamage);
-            Debug.Log("SENT  \""+enemy.name+"\" "+ damageSend + " DAMAGE");
+            enemy.GetComponent<Boss>().hitMonster(skillDamage, player.attackRangeLow, player.attackRangeHigh, damageLines, player.critChance, player.critDamage);
         }
         player.currentMana -= 750;
     }
+    // Ability 2
+    void dragonFury(){
+        Debug.Log("SPECIAL MOVE");
+        anim.Play("Attack_X");
+        attackRange = 2f;
+        skillDamage = 500;
+        damageLines = 3;
+        Vector2 startPos;
+        if(flipped()){
+            float distanceFromBody = 2.5f;
+            startPos = new Vector2(boxCollider.bounds.center.x - distanceFromBody, boxCollider.bounds.center.y);
+        } else {
+            float distanceFromBody = 2.5f;
+            startPos = new Vector2(boxCollider.bounds.center.x + distanceFromBody, boxCollider.bounds.center.y);
+        }
+        Collider2D[] enemiesHit = Physics2D.OverlapCircleAll(startPos, attackRange, enemyLayer);
+        foreach(Collider2D enemy in enemiesHit){
+            enemy.GetComponent<Boss>().hitMonster(skillDamage, player.attackRangeLow, player.attackRangeHigh, damageLines, player.critChance, player.critDamage);
+        }
+        player.currentMana -= 750;
+    }
+
     bool flipped(){
-        // if(sprite.flipX == true){
-        //     return true;
-        // }
-        // return false;
         return sprite.flipX != false;
     }
 

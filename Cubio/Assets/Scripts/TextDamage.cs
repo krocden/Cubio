@@ -6,6 +6,7 @@ public class TextDamage : MonoBehaviour
 {
 
     public float destroyTime = 3f;
+    public float speed;
     Vector3 offset = new Vector3(1,3.5f,-1);
 
     // Start is called before the first frame update
@@ -20,6 +21,6 @@ public class TextDamage : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        transform.Translate(Vector3.up * speed * Time.deltaTime);
     }
 }

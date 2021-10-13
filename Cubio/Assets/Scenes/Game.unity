@@ -1452,7 +1452,7 @@ PrefabInstance:
     - target: {fileID: 5158914793290091662, guid: 114e46616c9eb094ab09983aad5a89fa,
         type: 3}
       propertyPath: m_SortingLayer
-      value: -1
+      value: -2
       objectReference: {fileID: 0}
     - target: {fileID: 5158914793290091662, guid: 114e46616c9eb094ab09983aad5a89fa,
         type: 3}
@@ -2630,9 +2630,9 @@ MonoBehaviour:
   currentMana: 0
   maxMana: 2000
   attackRangeLow: 12000
-  attackRangeHigh: 18000
-  critChance: 30
-  critDamage: 30
+  attackRangeHigh: 16000
+  critChance: 15
+  critDamage: 10
   showCurrentState: 
   showCurrentVelocity: 
 --- !u!114 &868302370
@@ -4725,7 +4725,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.7769396, y: 1}
+    m_SensorSize: {x: 1.7782152, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
