@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 336081616383973499}
   - component: {fileID: 336081616383973498}
   - component: {fileID: 1581604888}
+  - component: {fileID: 5493214484076751176}
   m_Layer: 11
   m_Name: Pianus
   m_TagString: Untagged
@@ -243,7 +244,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff4edb232751a8345baae9ebc50b3a92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 750000
+  maxHealth: 1750000
   currentHealth: 0
   level: 30
   expMultiplier: 1.4
@@ -253,5 +254,29 @@ MonoBehaviour:
     type: 3}
   floatingDamage_Critical: {fileID: 5892256845464209573, guid: c01840b4dc4e6b245bcb821d6e12037a,
     type: 3}
+  state: 0
+  hitStunTime: 0.5
+  animator: {fileID: 5493214484076751176}
+  hasSkill: 1
+  spellDamage: 150
   healthBar: {fileID: 4321244445298969177, guid: d6b19ec85a030204188f054e2c4546a9,
     type: 3}
+--- !u!95 &5493214484076751176
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 336081616383973765}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 27ffd8c80fae9094694e46f863717436, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0

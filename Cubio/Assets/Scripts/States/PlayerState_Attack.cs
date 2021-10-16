@@ -45,7 +45,7 @@ public class PlayerState_Attack : PlayerState
         
         if(input == "Z"){
             if(attackDelay <= 0){
-                if(player.currentMana >= 200){
+                if(player.currentMana >= 750){
                     startAttackDelay = 0.425f;
                     spearCrusher();
                     attackDelay = startAttackDelay;
@@ -59,9 +59,8 @@ public class PlayerState_Attack : PlayerState
             }
             
         } else if (input == "X"){
-            skillLocked = true;
             if(attackDelay <= 0){
-                if(player.currentMana >= 250){
+                if(player.currentMana >= 800){
                     startAttackDelay = 0.425f;
                     dragonFury();
                     attackDelay = startAttackDelay;
@@ -87,7 +86,7 @@ public class PlayerState_Attack : PlayerState
         anim.Play("Attack_Z");
         //player.StartCoroutine(startDelayCoroutine(1));
         attackRange = 2.25f;
-        skillDamage = 400;
+        skillDamage = 1600;
         damageLines = 1;
         Vector2 startPos;
         if(flipped()){
@@ -122,7 +121,7 @@ public class PlayerState_Attack : PlayerState
         foreach(Collider2D enemy in enemiesHit){
             enemy.GetComponent<Boss>().hitMonster(skillDamage, player.attackRangeLow, player.attackRangeHigh, damageLines, player.critChance, player.critDamage);
         }
-        player.currentMana -= 750;
+        player.currentMana -= 800;
     }
 
     bool flipped(){

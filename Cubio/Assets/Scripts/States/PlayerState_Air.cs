@@ -14,6 +14,7 @@ public class PlayerState_Air : PlayerState_Grounded
     public override void Enter()
     {
         base.Enter();
+        anim.Play("Jump");
         player.InputHandler.buttonPressed = null;
     }
     public override void Exit()
