@@ -15,9 +15,14 @@ public class Monsters : MonoBehaviour
     //TextMeshPro textDamage;
     public GameObject floatingDamage_Normal;
     public GameObject floatingDamage_Critical;
-    
-    //public float hitStunTime;
-    Animator animator;
+    public enum State {
+        Idle,
+        Attacking,
+        Hit
+    }
+    public State state;
+    public float hitStunTime;
+    public Animator animator;
 
     void Awake(){
         //textDamage = transform.GetComponent<TextMeshPro>();
@@ -26,6 +31,7 @@ public class Monsters : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        state = State.Idle;
         setHealthOnSpawn();
     }
 
@@ -36,12 +42,15 @@ public class Monsters : MonoBehaviour
     }
 
     public void hitMonster(int skillDamage, int attackRangeLow, int attackRangeHigh, int damageLines, int criticalChance, float critDamage){
+        if(state != State.Attacking){
+            animator.Play("Hit");
+            state = State.Hit;
+        }
         for(int i = 0; i < damageLines; i++){
             int damageSend = (skillDamage/100) * Random.Range(attackRangeLow, attackRangeHigh);
             Debug.Log("SENT  \""+this.name+"\" "+ damageSend + " DAMAGE");
             damageCalc(damageSend, criticalChance, critDamage, i);
         }
-        
     }
 
     void damageCalc(float incomingDamage, int criticalChance, float critDamage, int currentLine){
@@ -73,13 +82,13 @@ public class Monsters : MonoBehaviour
         currentHealth = maxHealth;
     }
 
-    protected void checkDeath(){
+    public virtual void checkDeath(){
         if(currentHealth <= 0){
             checkDamageChild();
             Destroy(gameObject);
         }
     }
-    void checkDamageChild(){
+    protected void checkDamageChild(){
         foreach (Transform child in transform) {
             child.parent = null;
         }

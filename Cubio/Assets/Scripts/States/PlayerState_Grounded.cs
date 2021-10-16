@@ -46,12 +46,12 @@ public class PlayerState_Grounded : PlayerState
             stateMachine.ChangeState(player.AttackState);
         }
         if(input == "LEFT"){
-            velocityH = movementDir * player.movementSpeed;
             sprite.flipX = true;
+            velocityH = movementDir * player.movementSpeed;
         }
         else if(input == "RIGHT"){
-            velocityH = movementDir * player.movementSpeed;
             sprite.flipX = false;
+            velocityH = movementDir * player.movementSpeed;
         }
         if(input == "DUCK" && isGrounded()){
             stateMachine.ChangeState(player.DuckState);
@@ -89,7 +89,7 @@ public class PlayerState_Grounded : PlayerState
         } else {
             rayColor = Color.magenta;
         }
-        Debug.DrawLine(LeftBottomCorner,RightBottomCorner, rayColor);
+        //Debug.DrawLine(LeftBottomCorner,RightBottomCorner, rayColor);
         return raycastHit != null;
     }
     void jump(){

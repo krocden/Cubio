@@ -19,6 +19,7 @@ public class PlayerState_Run : PlayerState_Grounded
         base.Enter();
         //rigidbody = player.RB;
         //player.SetVelocityX(0f);
+        anim.Play("Run");
         //Debug.Log("AM RUNNING");
     }
     public override void Exit()

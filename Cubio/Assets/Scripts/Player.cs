@@ -11,6 +11,7 @@ public class Player : MonoBehaviour
     public PlayerState_Run RunState { get; private set; }
     public PlayerState_Air AirState { get; private set; }
     public PlayerState_Attack AttackState { get; private set; }
+    public PlayerState_Death DeathState { get; private set; }
     public PlayerState_Duck DuckState { get; private set; }
 
     // [SerializeField]
@@ -35,11 +36,15 @@ public class Player : MonoBehaviour
     public int currentHealth;
     public int maxHealth;
     public int currentMana;
+    public int healthRegenRate;
+    public int manaRegenRate;
     public int maxMana;
+    public int resistance;
     public int attackRangeLow = 12000;
     public int attackRangeHigh = 18000;
     public int critChance = 20;
     public float critDamage = 1.4f;
+    bool dead = false;
     //private Vector2 workspace;
     #endregion
 
@@ -56,6 +61,7 @@ public class Player : MonoBehaviour
         AirState = new PlayerState_Air(this, stateMachine, "Air");
         AttackState = new PlayerState_Attack(this, stateMachine, "Attack");
         DuckState = new PlayerState_Duck(this, stateMachine, "Duck");
+        DeathState = new PlayerState_Death(this, stateMachine, "Death");
     }
 
     // Start is called before the first frame update
@@ -82,19 +88,38 @@ public class Player : MonoBehaviour
         showCurrentVelocity = RB.velocity.ToString();
         stateMachine.CurrentState.LogicUpdate();
 
-        manaRegen();
-        updateHealth();
-        updateMana();
+        if(!dead){
+            checkDeath();
+            healthRegen();
+            manaRegen();
+            updateHealth();
+            updateMana();
+        }
     }
     void FixedUpdate(){
         stateMachine.CurrentState.PhysicsUpdate();
     }
-
+    void checkDeath(){
+        if(currentHealth <= 0){
+            dead = true;
+            healthRegenRate = 0;
+            manaRegenRate = 0;
+            currentMana = 0;
+            stateMachine.ChangeState(DeathState);
+        }
+    }
+    void healthRegen(){
+        if(currentHealth >= maxHealth){
+            currentHealth = maxHealth;
+        } else {
+            currentHealth += healthRegenRate;
+        }
+    } 
     void manaRegen(){
         if(currentMana >= maxMana){
             currentMana = maxMana;
         } else {
-            currentMana += 1;
+            currentMana += manaRegenRate;
         }
     }  
      void updateHealth(){
@@ -114,4 +139,8 @@ public class Player : MonoBehaviour
     //     Gizmos.DrawWireSphere(BC.bounds.center + new Vector3(2.5f,0,0),2f);
     //     Gizmos.DrawWireSphere(BC.bounds.center - new Vector3(2.5f,0,0),2f);
     // }
+    public void hitByMonster(int monsterLevel, int spellDamage){
+        int damageReceived = (monsterLevel * spellDamage)/resistance;
+        currentHealth -= damageReceived;
+    }
 }

@@ -18,13 +18,16 @@ public class PlayerState_Duck : PlayerState
     public override void Enter()
     {
         base.Enter();
+        anim.Play("Duck");
         boxCollider = player.BC;
+        changeCollider("Enter");
         playerLayer = LayerMask.NameToLayer("Player");
         platformLayer = LayerMask.NameToLayer("Platforms");
     }
     public override void Exit()
     {
         base.Exit();
+        changeCollider("Exit");
     }
     public override void LogicUpdate()
     {
@@ -43,12 +46,21 @@ public class PlayerState_Duck : PlayerState
     {
         base.PhysicsUpdate();
     }
-
+    void changeCollider(string change){
+        if(change == "Enter"){
+            boxCollider.size = new Vector2(1.5f, 0.55f);
+            boxCollider.offset = new Vector2(0f, -0.5f);
+        } 
+        else if(change == "Exit"){
+            boxCollider.size = new Vector2(0.5f, 1);
+            boxCollider.offset = new Vector2(0, -0.25f);
+        }
+    }
     IEnumerator jumpOffPlatform(){
         Debug.Log("REE");
         //jumpingOff = true;
         Physics2D.IgnoreLayerCollision(playerLayer, platformLayer, true);
-        yield return new WaitForSeconds(0.15f);
+        yield return new WaitForSeconds(0.13f);
         Physics2D.IgnoreLayerCollision(playerLayer, platformLayer, false);
         //jumpingOff = false;
     }
@@ -62,7 +74,7 @@ public class PlayerState_Duck : PlayerState
         } else {
             rayColor = Color.red;
         }
-        Debug.DrawRay(platformOnScreen, Vector2.down * Screen.height, Color.magenta, 2f);
+        //Debug.DrawRay(platformOnScreen, Vector2.down * Screen.height, Color.magenta, 2f);
         //Debug.Log("PLATFORM BELOW : "+platformBelow.collider);
         return platformBelow.collider != null;
     }
